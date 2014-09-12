@@ -3,11 +3,14 @@ package com.example.simpleui;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -15,6 +18,8 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 	public EditText editText1;
 	public Button button1;
+	public CheckBox checkbox1;
+	
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +27,9 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         editText1 = (EditText) findViewById(R.id.editText1);
         button1 = (Button) findViewById(R.id.button1);
+        checkbox1 = (CheckBox) findViewById(R.id.checkBox1);
         button1.setText("Send");
+        
         button1.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -33,6 +40,19 @@ public class MainActivity extends Activity {
 			}
 		});
         
+        editText1.setOnKeyListener(new OnKeyListener() {
+			
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				// TODO Auto-generated method stub
+				if(keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN ){
+					sendText();
+					editText1.setText("");
+					
+				}
+				return false;
+			}
+		});
   
     }
 
@@ -43,6 +63,10 @@ public class MainActivity extends Activity {
     
     public void sendText(){
     	String text = editText1.getText().toString();
+    	if(checkbox1.isChecked()){
+    		text = "*******";
+    		
+    	}
     	Toast.makeText(this, text, Toast.LENGTH_LONG).show();
     	
     }

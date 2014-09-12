@@ -2,4 +2,6 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="android.widget.CheckBox"/>
 <fullyQualifiedTypeName name="android.view.View.OnKeyListener"/>
+<fullyQualifiedTypeName name="android.content.SharedPreferences"/>
+<fullyQualifiedTypeName name="android.content.SharedPreferences.Editor"/>
 </qualifiedTypeNameHistroy>

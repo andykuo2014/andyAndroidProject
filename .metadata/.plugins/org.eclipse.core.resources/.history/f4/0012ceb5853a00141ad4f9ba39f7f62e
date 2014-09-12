@@ -60,9 +60,6 @@ public class MainActivity extends Activity {
 				return false;
 			}
 		});
-        
-        editText1.setText(sp.getString("text", ""));
-        
   
     }
 

@@ -4,4 +4,16 @@
 <fullyQualifiedTypeName name="android.view.View.OnKeyListener"/>
 <fullyQualifiedTypeName name="android.content.SharedPreferences"/>
 <fullyQualifiedTypeName name="android.content.SharedPreferences.Editor"/>
+<fullyQualifiedTypeName name="com.parse.ParseObject"/>
+<fullyQualifiedTypeName name="com.parse.ParseQuery"/>
+<fullyQualifiedTypeName name="com.parse.FindCallback"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="com.parse.SaveCallback"/>
+<fullyQualifiedTypeName name="android.app.ProgressDialog"/>
+<fullyQualifiedTypeName name="android.widget.Toast"/>
+<fullyQualifiedTypeName name="android.content.Intent"/>
+<fullyQualifiedTypeName name="android.provider.MediaStore"/>
+<fullyQualifiedTypeName name="android.widget.ImageView"/>
+<fullyQualifiedTypeName name="com.example.takephoto.R.id"/>
+<fullyQualifiedTypeName name="android.graphics.Bitmap"/>
 </qualifiedTypeNameHistroy>

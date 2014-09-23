@@ -18,7 +18,9 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.Toast;
-
+import com.parse.Parse;
+import com.parse.ParseAnalytics;
+import com.parse.ParseObject;
 
 public class MainActivity extends Activity {
 	public EditText editText1;
@@ -30,6 +32,10 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Parse.initialize(this, "Wc1sPUOAA0A54VcPfprzhnm9ANFeHZlszG7myTmm", "XdCQmWob5kyPuoWoNaNoPdZP0ppBwwslyyA6MmBb");
+        //ParseObject testObject = new ParseObject("TestObject");
+        //testObject.put("foo", "bar");
+        //testObject.saveInBackground();
         sp = getSharedPreferences("setting", MODE_PRIVATE);
         e = sp.edit();
         setContentView(R.layout.activity_main);

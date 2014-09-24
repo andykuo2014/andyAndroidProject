@@ -1,0 +1,58 @@
+package tw.com.newstars.crazy;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.util.Log;
+import android.widget.CalendarView;
+
+public class ScreenDetectBroadcastReceiver extends BroadcastReceiver {
+	
+	SharedPreferences sp;
+	Editor editor;
+	
+	@Override
+	public void onReceive(Context context, Intent intent) {
+		// TODO Auto-generated method stub
+		Log.d("debug","get action"+intent.getAction());
+		if(intent.getAction()==Intent.ACTION_SCREEN_ON){
+			sp = context.getSharedPreferences("lastscreenon", Context.MODE_PRIVATE);
+			editor = sp.edit();
+			editor.putInt("lastscreenon", (int) (new Date().getTime()/1000));
+			editor.commit();
+		}else if(intent.getAction()==Intent.ACTION_SCREEN_OFF){
+			sp = context.getSharedPreferences("lastscreenon", Context.MODE_PRIVATE);
+			int lastscreenon = sp.getInt("lastscreenon", 0);
+			int currenttime = (int) new Date().getTime()/1000;
+			int duration = currenttime - lastscreenon;
+			Log.d("debug","Duration:"+duration+"secs");
+			Calendar calendarOn = Calendar.getInstance();
+			calendarOn.setTimeInMillis(((long)lastscreenon)*1000);
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+			String keystr = simpleDateFormat.format(calendarOn.getTime());
+			sp = context.getSharedPreferences("dayusage", Context.MODE_PRIVATE);
+			int useSeconds = sp.getInt(keystr,0);
+			useSeconds+=duration;
+			editor = sp.edit();
+			editor.putInt(keystr, useSeconds);
+			editor.commit();
+			Log.d("debug","now useseconds for "+keystr+" becomes "+useSeconds);
+			Calendar calendarOff = Calendar.getInstance();
+			calendarOff.setTimeInMillis(currenttime*1000);
+			//there is a problem that calendarOff and calendarStart may be on different days.
+			//ignore this problem for now.
+			
+			
+			
+		}
+
+	}
+
+}

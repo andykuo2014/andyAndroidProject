@@ -3,9 +3,9 @@
     package="tw.com.newstars.crazy"
     android:versionCode="1"
     android:versionName="1.0" >
-
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-sdk
-        android:minSdkVersion="15"
+        android:minSdkVersion="16"
         android:targetSdkVersion="19" />
 
     <application
@@ -22,6 +22,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity 
+            android:name=".CrazySetting"
+            android:label="設定" >
+            
+        </activity>
+        <receiver android:name=".OnBootReceiver">  
+			<intent-filter>  
+			    <action android:name="android.intent.action.BOOT_COMPLETED" />  
+			</intent-filter>  
+		</receiver>
     </application>
 
 </manifest>

@@ -16,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -28,7 +30,8 @@ public class MainActivity extends Activity {
 	SharedPreferences sp2;
 	Editor editor1;
 	Editor editor2;
-	Button button;
+	CheckBox checkNotice;
+	ImageView imageView1; //the share button img.
 	TextView textView1; //the usage text.
 	SwipeRefreshLayout swipeContainer;
 	
@@ -36,16 +39,14 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		broadcastReceiver = new ScreenDetectBroadcastReceiver();
-		IntentFilter intentFilter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
-		intentFilter.addAction(Intent.ACTION_SCREEN_ON);
-		registerReceiver(broadcastReceiver, intentFilter);
+		
 		sp1 = getSharedPreferences("sp1", this.MODE_PRIVATE);
 		sp2 = getSharedPreferences("sp2", this.MODE_PRIVATE);
 		editor1 = sp1.edit();
 		editor2 = sp2.edit();
 		textView1 = (TextView) findViewById(R.id.textView1);
-		button = (Button)findViewById(R.id.button1);
+		imageView1 = (ImageView)findViewById(R.id.imageView1);
+		
 		swipeContainer = (SwipeRefreshLayout)findViewById(R.id.swipe_container);
 		swipeContainer.setColorSchemeResources (android.R.color.holo_blue_dark, android.R.color.holo_blue_light, android.R.color.holo_green_light, android.R.color.holo_green_light);
 		
@@ -62,7 +63,7 @@ public class MainActivity extends Activity {
 		});
 		
 			
-		button.setOnClickListener(new OnClickListener() {
+		imageView1.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -109,6 +110,8 @@ public class MainActivity extends Activity {
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
+			Intent intent = new Intent(this,CrazySetting.class);
+			startActivity(intent);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

@@ -23,29 +23,15 @@
         android:layout_toRightOf="@+id/textView1"
         android:src="@drawable/ic_launcher" />
 
-    <ScrollView
-        android:id="@+id/scrollView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/imageView1"
-        android:layout_marginTop="27dp" >
-
-        <LinearLayout
-            android:id="@+id/linearLayout1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/imageView1"
-            android:layout_marginTop="0dp"
-            android:orientation="vertical" >
-        </LinearLayout>
-    </ScrollView>
-
-    <ProgressBar
-        android:id="@+id/progressBar1"
+    <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/scrollView1"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/imageView1"
+        android:layout_marginTop="77dp"
+        android:layout_toRightOf="@+id/imageView1"
+        android:orientation="vertical" >
+
+    </LinearLayout>
 
 </RelativeLayout>

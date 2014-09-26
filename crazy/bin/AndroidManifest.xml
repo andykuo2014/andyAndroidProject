@@ -27,6 +27,9 @@
             android:label="設定" >
             
         </activity>
+        <service android:name=".OnBootService">
+            
+        </service>
         <receiver android:name=".OnBootReceiver">  
 			<intent-filter>  
 			    <action android:name="android.intent.action.BOOT_COMPLETED" />  

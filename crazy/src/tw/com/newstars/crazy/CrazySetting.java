@@ -1,20 +1,26 @@
 package tw.com.newstars.crazy;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 public class CrazySetting extends Activity {
@@ -22,11 +28,15 @@ public class CrazySetting extends Activity {
 	Button buttonConfirmNotice;
 	Button buttonCancelNotice;
 	Button resetButton;
+	Button debugButton;
 	SharedPreferences sp1;
 	Editor editor1;
 	SharedPreferences sp2;
 	Editor editor2;
 	CheckBox checkNotice;
+	Spinner spinnerUsageMax;
+	String[] spinnerUsageMaxItems = {"1小時","2小時","3小時"};
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setting);
@@ -34,10 +44,14 @@ public class CrazySetting extends Activity {
 		editor1 = sp1.edit();
 		sp2 = getSharedPreferences("sp2", this.MODE_PRIVATE);
 		editor2 = sp2.edit();
+		spinnerUsageMax = (Spinner) findViewById(R.id.spinnerUsageMax);
+		populateSpinnerItems(spinnerUsageMax,spinnerUsageMaxItems);
+		
 		checkNotice = (CheckBox) findViewById(R.id.checkNotice);
 		buttonConfirmNotice = (Button) findViewById(R.id.buttonConfirmNotice);
 		buttonCancelNotice = (Button) findViewById(R.id.buttonCancelNotice);
 		resetButton = (Button) findViewById(R.id.resetButton);
+		debugButton = (Button) findViewById(R.id.debugButton);
 		buttonConfirmNotice.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -46,6 +60,14 @@ public class CrazySetting extends Activity {
 				editor1.commit();
 				Log.d("debug","button clicked");
 				sendNotify();
+			}
+		});
+		
+		debugButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				test();
 			}
 		});
 		
@@ -73,6 +95,11 @@ public class CrazySetting extends Activity {
 		});
 	}
 	
+	private void populateSpinnerItems(Spinner spinner,String[] items){
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,items);
+		spinner.setAdapter(adapter);
+	}
+	
 	public void sendNotify(){
 		
 		NotificationManager notificationManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
@@ -89,6 +116,23 @@ public class CrazySetting extends Activity {
 		notifyid++;
 		editor1.putInt("notifyid", notifyid).commit();
 		notificationManager.notify(notifyid, notice);
+		
+	}
+	
+	private void test(){
+		//set the alarm
+		//send usage notification every day at 9pm.
+		Log.d("debug","test function");
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.HOUR_OF_DAY, 11);
+		calendar.set(Calendar.MINUTE, 55);
+		calendar.set(Calendar.SECOND,0);
+		calendar.set(Calendar.DAY_OF_MONTH,1);
+		Intent sendDailyReportIntent = new Intent(this,SendDailyReportBroadcastReceiver.class);
+		sendDailyReportIntent.setAction(OnBootReceiver.ACTION_SEND_DAILY_REPORT);
+		PendingIntent pi = PendingIntent.getBroadcast(this,OnBootReceiver.REQUESTCODE_FROM_ONBOOTRECEIVER,sendDailyReportIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+		AlarmManager am = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+		am.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),10000,pi);	
 		
 	}
 	

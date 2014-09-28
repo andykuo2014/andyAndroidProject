@@ -27,16 +27,18 @@ public final class R {
         public static final int sun2=0x7f020002;
     }
     public static final class id {
-        public static final int action_settings=0x7f08000a;
-        public static final int buttonCancelNotice=0x7f080007;
-        public static final int buttonConfirmNotice=0x7f080008;
+        public static final int action_settings=0x7f08000c;
+        public static final int buttonCancelNotice=0x7f080008;
+        public static final int buttonConfirmNotice=0x7f080009;
+        public static final int checkDailyUsage=0x7f080005;
         public static final int checkNotice=0x7f080006;
-        public static final int imageView1=0x7f080005;
-        public static final int resetButton=0x7f080009;
+        public static final int debugButton=0x7f08000b;
+        public static final int imageView1=0x7f080004;
+        public static final int resetButton=0x7f08000a;
+        public static final int spinnerUsageMax=0x7f080007;
         public static final int swipe_container=0x7f080000;
         public static final int textView1=0x7f080002;
-        public static final int textView2=0x7f080003;
-        public static final int textView3=0x7f080004;
+        public static final int textView3=0x7f080003;
         public static final int textView4=0x7f080001;
     }
     public static final class layout {

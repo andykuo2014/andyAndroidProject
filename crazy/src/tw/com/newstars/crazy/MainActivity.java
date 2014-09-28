@@ -4,11 +4,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Menu;
@@ -32,8 +34,13 @@ public class MainActivity extends Activity {
 	Editor editor2;
 	CheckBox checkNotice;
 	ImageView imageView1; //the share button img.
-	TextView textView1; //the usage text.
+	TextView textView1; //the today usage text.
+	TextView textView3; //the yesterday usage text.
 	SwipeRefreshLayout swipeContainer;
+	Handler handler;
+	Runnable runnable;
+	long todayUseMilliseconds;
+	long yesterdayUseMilliseconds;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +52,7 @@ public class MainActivity extends Activity {
 		editor1 = sp1.edit();
 		editor2 = sp2.edit();
 		textView1 = (TextView) findViewById(R.id.textView1);
+		textView3 = (TextView) findViewById(R.id.textView3);
 		imageView1 = (ImageView)findViewById(R.id.imageView1);
 		
 		swipeContainer = (SwipeRefreshLayout)findViewById(R.id.swipe_container);
@@ -56,7 +64,7 @@ public class MainActivity extends Activity {
 			public void onRefresh() {
 				// TODO Auto-generated method stub
 				Log.d("debug","on refresh");
-				updateUsage();
+				updateUsage(MainActivity.this);
 				swipeContainer.setRefreshing(false);
 				
 			}
@@ -68,14 +76,27 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				editor1.clear().commit();
-				editor2.clear().commit();
+				editor2.clear().commit(); 
 			}
 		});	
+		
+		//see if sp1 has lastscreenon key, if not, set it.
+		if(sp1.getLong("lastscreenon", 0)==0){
+			editor1.putLong("lastscreenon", new Date().getTime());
+			editor1.commit();
+		}
+		MobileUsage mu = new MobileUsage(this);
+		mu.dumpAllSharedPreference();
+		if(!sp1.getBoolean("alreadyreboot", false)){
+			//events haven't been handled by reboot. handle them now.
+			Intent i = new Intent(OnBootReceiver.ACTION_HANDLE_EVENTS);
+			sendBroadcast(i);
+		}
 	}
 	
 	protected void onResume(){
 		super.onResume();
-		updateUsage();
+		updateUsage(this);
 	}
 
 	@Override
@@ -85,22 +106,33 @@ public class MainActivity extends Activity {
 		return true;
 	}
 	
-	public void updateUsage(){
-		displayUsage(getTodayUseMilliseconds());
-	
+	public void updateUsage(Context context){
+		MobileUsage mu = new MobileUsage(context);
+		todayUseMilliseconds =mu.getTodayUseMilliseconds();
+		yesterdayUseMilliseconds = mu.getYesterdayUseMilliseconds();
+		Log.d("debug","yesterday usage:"+yesterdayUseMilliseconds);
+		displayUsage(todayUseMilliseconds,yesterdayUseMilliseconds);
+		if(handler==null){
+			handler = new Handler();
+			runnable = new Runnable() {
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					todayUseMilliseconds+=1000;
+					displayUsage(todayUseMilliseconds,yesterdayUseMilliseconds);
+					handler.postDelayed(this, 1000);
+				}
+			};
+			handler.postDelayed(runnable, 1000);
+		}
 	}
-	public long getTodayUseMilliseconds(){
-		String todayStr = new SimpleDateFormat("yyyyMMdd").format(new Date());
-		long todayUsage = sp2.getLong(todayStr, 0);
-		//also need to add the current usage after the last screenon.
-		long lastScreenOn = sp1.getLong("lastscreenon",new Date().getTime()); 
-		todayUsage+= new Date().getTime()-lastScreenOn;
-		return todayUsage;
-	}
 	
-	public void displayUsage(long usage){
+	public void displayUsage(long todayusage,long yesterdayusage){
 		//display usage on the screen.
-		textView1.setText(""+ (int)(usage/1000));
+		TimeFormat todayTimeFormat = new TimeFormat(todayusage);
+		TimeFormat yesterdayTimeFormat = new TimeFormat(yesterdayusage);
+		textView1.setText(todayTimeFormat.getLongFormat());
+		textView3.setText("¬Q¤Ñ¥Î¶q"+yesterdayTimeFormat.getShortFormat());
 	}
 
 	@Override

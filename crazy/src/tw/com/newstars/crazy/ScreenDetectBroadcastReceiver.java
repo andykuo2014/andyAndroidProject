@@ -28,14 +28,14 @@ public class ScreenDetectBroadcastReceiver extends BroadcastReceiver {
 		editor1 = sp1.edit();
 		editor2 = sp2.edit();
 		if(intent.getAction()==Intent.ACTION_SCREEN_ON){
+			Log.d("debug","onreceive screenon");
 			editor1.putLong("lastscreenon", new Date().getTime());
 			editor1.commit();
 		}else if(intent.getAction()==Intent.ACTION_SCREEN_OFF){
 			long lastscreenon = sp1.getLong("lastscreenon", 0);
 			long currenttime = new Date().getTime();
 			long duration = currenttime - lastscreenon;
-			Log.d("debug","Duration:"+duration+" millisecs");
-			
+			Log.d("debug","onreceive screenoff Duration:"+duration+" millisecs");
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
 			String keystr = simpleDateFormat.format(lastscreenon);
 			long useMilliSeconds = sp2.getLong(keystr,(long)0);

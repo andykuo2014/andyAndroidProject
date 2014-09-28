@@ -2,17 +2,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="10dp"
     android:orientation="vertical" >
 
     <CheckBox
+        android:id="@+id/checkDailyUsage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="每天晚上9點寄給我當天的使用時數" />
+    
+     <CheckBox
         android:id="@+id/checkNotice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="當我今天手機使用量超過設定上限時通知我" />
+        android:text="當我今天手機使用量超過設定時通知我" />
+
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content" >
+
+         <TextView
+             android:id="@+id/textView1"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="40dp"
+             android:text="設定上限:" />
+
+         <Spinner
+             android:id="@+id/spinnerUsageMax"
+             android:layout_width="200dp"
+             android:layout_height="wrap_content"
+             android:layout_weight="0" />
+
+     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp" >
 
         <Button
             android:id="@+id/buttonCancelNotice"
@@ -32,6 +59,13 @@
         android:id="@+id/resetButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
         android:text="重設資料" />
+
+    <Button
+        android:id="@+id/debugButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Debug" />
 
 </LinearLayout>

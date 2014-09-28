@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <CheckBox
+        android:id="@+id/checkDailyUsage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="每天晚上9點寄給我當天的使用時數" />
+    
+     <CheckBox
+        android:id="@+id/checkNotice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="當我今天手機使用量超過設定時通知我" />
+
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content" >
+
+         <TextView
+             android:id="@+id/textView1"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="TextView" />
+
+         <Spinner
+             android:id="@+id/spinnerUsageMax"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_weight="1" />
+     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/buttonCancelNotice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消" />
+
+        <Button
+            android:id="@+id/buttonConfirmNotice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="儲存" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/resetButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="重設資料" />
+
+    <Button
+        android:id="@+id/debugButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Debug" />
+
+</LinearLayout>

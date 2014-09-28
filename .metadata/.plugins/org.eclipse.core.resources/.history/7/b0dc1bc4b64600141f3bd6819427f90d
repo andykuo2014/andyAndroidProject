@@ -1,0 +1,38 @@
+package tw.com.newstars.crazy;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+
+public class MobileUsage {
+	SharedPreferences sp1;
+	Editor editor1;
+	SharedPreferences sp2;
+	Editor editor2;
+	
+	public MobileUsage(Context context){
+		sp1 = context.getSharedPreferences("sp1", context.MODE_PRIVATE);
+		sp2 = context.getSharedPreferences("sp2", context.MODE_PRIVATE);
+		editor1 = sp1.edit();
+		editor2 = sp2.edit();
+	}
+	
+	public long getTodayUseMilliseconds(){
+		String todayStr = new SimpleDateFormat("yyyyMMdd").format(new Date());
+		long todayUsage = sp2.getLong(todayStr, 0);
+		//also need to add the current usage after the last screenon.
+		long lastScreenOn = sp1.getLong("lastscreenon",new Date().getTime()); 
+		todayUsage+= new Date().getTime()-lastScreenOn;
+		return todayUsage;
+	}
+	
+	public long getYesterdayUseMilliseconds(){
+		String yesterdayStr = new SimpleDateFormat("yyyyMMdd").format(new Date(new Date().getTime()-86400000));
+		long yesterdayUsage = sp2.getLong(yesterdayStr,0);
+		return yesterdayUsage;
+	}
+	
+}
